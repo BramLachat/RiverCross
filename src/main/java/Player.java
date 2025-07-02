@@ -37,4 +37,17 @@ public class Player {
     public void setPosX(float x) {
         this.position.x(x);
     }
+
+    // Move the player in the same direction and with the same speed as the obstacles in the lane.
+    public void move(LaneDirection direction, float laneSpeed, float deltaTime) {
+        if (direction == LaneDirection.LEFT_TO_RIGHT) {
+            this.position.x(this.position.x() + (int) (laneSpeed * deltaTime));
+        } else {
+            this.position.x(this.position.x() - (int) (laneSpeed * deltaTime));
+        }
+    }
+
+    public boolean isInsideLane(Lane lane) {
+        return this.position.y() < lane.getBottomY() && this.position.y() > lane.getTopY();
+    }
 }
