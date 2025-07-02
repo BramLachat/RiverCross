@@ -13,12 +13,13 @@ public class Lane {
     private float speed;
     private LaneDirection direction;
 
-    public Lane(float speed, LaneDirection direction) {
+    public Lane(float speed, LaneDirection direction, int nextObstacleCreationDelay) {
         this.obstacleList = new ArrayList<>();
         this.lastCreatedObstacleTimestamp = Instant.now();
         this.nextObstacleCreationDelay = 0;
         this.speed = speed;
         this.direction = direction;
+        this.nextObstacleCreationDelay = nextObstacleCreationDelay;
     }
 
     public void setNextObstacleCreationDelay(int nextObstacleCreationDelay) {

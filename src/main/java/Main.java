@@ -40,10 +40,9 @@ public class Main {
 
         PLAYER = new Player((float) WINDOW_WIDTH / 2, WINDOW_HEIGHT - PLAYER_RADIUS - 1);
 
-        Lane lane1 = new Lane(OBSTACLE_SPEED, LaneDirection.LEFT_TO_RIGHT);
-        lane1.setNextObstacleCreationDelay(RANDOM_GENERATOR.nextInt(2000) + 1000);
-        Lane lane2 = new Lane(OBSTACLE_SPEED, LaneDirection.RIGHT_TO_LEFT);
-        lane2.setNextObstacleCreationDelay(RANDOM_GENERATOR.nextInt(2000) + 1000);
+        Lane lane1 = new Lane(OBSTACLE_SPEED, LaneDirection.LEFT_TO_RIGHT, RANDOM_GENERATOR.nextInt(2000) + 1000);
+        Lane lane2 = new Lane(OBSTACLE_SPEED, LaneDirection.RIGHT_TO_LEFT, RANDOM_GENERATOR.nextInt(2000) + 1000);
+        Lane lane3 = new Lane(OBSTACLE_SPEED, LaneDirection.LEFT_TO_RIGHT, RANDOM_GENERATOR.nextInt(2000) + 1000);
 
         while (!WindowShouldClose()) {
             BeginDrawing();
@@ -51,6 +50,13 @@ public class Main {
             DrawFPS(0, 0);
             float deltaTime = GetFrameTime(); // Get the time elapsed since last frame
 
+            lane1.draw(deltaTime);
+            lane2.draw(deltaTime);
+            lane3.draw(deltaTime);
+
+            DrawCircleV(PLAYER.getPosition(), PLAYER_RADIUS, BLACK);
+
+            EndDrawing();
 
             if (lane1.shouldSpawnNewObstacle()) {
                 int obstaclePosY = WINDOW_HEIGHT - 2 * (OBSTACLE_HEIGHT);
@@ -64,10 +70,17 @@ public class Main {
                 lane2.setNextObstacleCreationDelay(RANDOM_GENERATOR.nextInt(2000) + 1000);
             }
 
-            lane1.draw(deltaTime);
-            lane2.draw(deltaTime);
+            if (lane3.shouldSpawnNewObstacle()) {
+                int obstaclePosY = WINDOW_HEIGHT - 4 * (OBSTACLE_HEIGHT);
+                lane3.addObstacle(new Obstacle(OBSTACLE_HEIGHT, OBSTACLE_WIDTH, 0, obstaclePosY));
+                lane3.setNextObstacleCreationDelay(RANDOM_GENERATOR.nextInt(2000) + 1000);
+            }
 
-            DrawCircleV(PLAYER.getPosition(), PLAYER_RADIUS, BLACK);
+            for (Obstacle obstacle : lane1.getObstacleList()) {
+                if (CheckCollisionCircleRec(PLAYER.getPosition(), PLAYER_RADIUS, obstacle.getRectangle())) {
+                    PLAYER.reset();
+                }
+            }
 
             // https://www.glfw.org/docs/latest/group__keys.html
             if (IsKeyPressed(KEY_UP)) {
@@ -81,14 +94,6 @@ public class Main {
             }
             if (IsKeyPressed(KEY_RIGHT)) {
                 PLAYER.setPosX(PLAYER.getPosX() + OBSTACLE_WIDTH);
-            }
-
-            EndDrawing();
-
-            for (Obstacle obstacle : lane1.getObstacleList()) {
-                if (CheckCollisionCircleRec(PLAYER.getPosition(), PLAYER_RADIUS, obstacle.getRectangle())) {
-                    PLAYER.reset();
-                }
             }
         }
         CloseWindow();
