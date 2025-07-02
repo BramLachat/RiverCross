@@ -1,6 +1,3 @@
-import com.raylib.Raylib;
-
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -43,9 +40,9 @@ public class Main {
 
         PLAYER = new Player((float) WINDOW_WIDTH / 2, WINDOW_HEIGHT - PLAYER_RADIUS - 1);
 
-        Lane lane1 = new Lane();
+        Lane lane1 = new Lane(OBSTACLE_SPEED, LaneDirection.LEFT_TO_RIGHT);
         lane1.setNextObstacleCreationDelay(RANDOM_GENERATOR.nextInt(2000) + 1000);
-        Lane lane2 = new Lane();
+        Lane lane2 = new Lane(OBSTACLE_SPEED, LaneDirection.RIGHT_TO_LEFT);
         lane2.setNextObstacleCreationDelay(RANDOM_GENERATOR.nextInt(2000) + 1000);
 
         while (!WindowShouldClose()) {
@@ -57,18 +54,18 @@ public class Main {
 
             if (lane1.shouldSpawnNewObstacle()) {
                 int obstaclePosY = WINDOW_HEIGHT - 2 * (OBSTACLE_HEIGHT);
-                lane1.addObstacle(new Obstacle(OBSTACLE_HEIGHT, OBSTACLE_WIDTH, 0, obstaclePosY, OBSTACLE_SPEED, 1));
+                lane1.addObstacle(new Obstacle(OBSTACLE_HEIGHT, OBSTACLE_WIDTH, 0, obstaclePosY));
                 lane1.setNextObstacleCreationDelay(RANDOM_GENERATOR.nextInt(2000) + 1000);
             }
 
             if (lane2.shouldSpawnNewObstacle()) {
                 int obstaclePosY = WINDOW_HEIGHT - 3 * (OBSTACLE_HEIGHT);
-                lane2.addObstacle(new Obstacle(OBSTACLE_HEIGHT, OBSTACLE_WIDTH, WINDOW_WIDTH, obstaclePosY, OBSTACLE_SPEED, -1));
+                lane2.addObstacle(new Obstacle(OBSTACLE_HEIGHT, OBSTACLE_WIDTH, WINDOW_WIDTH, obstaclePosY));
                 lane2.setNextObstacleCreationDelay(RANDOM_GENERATOR.nextInt(2000) + 1000);
             }
 
-            drawObstacle(lane1.getObstacleList(), deltaTime);
-            drawObstacle(lane2.getObstacleList(), deltaTime);
+            lane1.draw(deltaTime);
+            lane2.draw(deltaTime);
 
             DrawCircleV(PLAYER.getPosition(), PLAYER_RADIUS, BLACK);
 
@@ -95,18 +92,5 @@ public class Main {
             }
         }
         CloseWindow();
-    }
-
-    private static void drawObstacle(List<Obstacle> obstacleLane, float deltaTime) {
-        List<Obstacle> obstaclesToRemove = new ArrayList<>();
-        for (Obstacle obstacle : obstacleLane) {
-            if (obstacle.isInsideWindow()) {
-                DrawRectangle((int) obstacle.getX(), (int) obstacle.getY(), (int) obstacle.getWidth(), (int) obstacle.getHeight(), RED); // DrawRectangle(rectangleXPos_1, 800, 50,50, RED);
-                obstacle.moveToNextPosition(deltaTime);
-            } else {
-                obstaclesToRemove.add(obstacle);
-            }
-        }
-        obstacleLane.removeAll(obstaclesToRemove);
     }
 }
