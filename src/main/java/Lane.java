@@ -48,7 +48,7 @@ public class Lane {
 
     public void addObstacle(int obstacleWidth) {
         if (direction == LaneDirection.LEFT_TO_RIGHT) {
-            obstacleList.add(new Obstacle(height, obstacleWidth, 0, topY));
+            obstacleList.add(new Obstacle(height, obstacleWidth, 0 - obstacleWidth, topY));
             lastCreatedObstacleTimestamp = Instant.now();
         }
         if (direction == LaneDirection.RIGHT_TO_LEFT) {
