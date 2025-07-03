@@ -61,8 +61,21 @@ public class Lane {
     }
 
     public void draw(float deltaTime) {
+
+        if (this.shouldSpawnNewObstacle()) {
+            this.addObstacle(Main.OBSTACLE_WIDTH);
+            // TODO @Bram: clean this up!
+            this.setNextObstacleCreationDelay(Main.RANDOM_GENERATOR.nextInt(2000) + 1000);
+            if (type == LaneType.MUD) {
+                this.setNextObstacleCreationDelay(Main.RANDOM_GENERATOR.nextInt(2000) + 2000);
+            }
+            // TODO @Bram: end
+        }
+
         List<Obstacle> obstaclesToRemove = new ArrayList<>();
-        Raylib.Color obstacleColor = this.type == LaneType.MORTAL ? RED : GREEN;
+        // TODO @Bram: clean this up!
+        Raylib.Color obstacleColor = (this.type == LaneType.MORTAL || this.type == LaneType.MUD) ? RED : GREEN;
+        // TODO @Bram: end!
         for (Obstacle obstacle : this.obstacleList) {
             if (obstacle.isInsideWindow(this.direction)) {
                 DrawRectangle((int) obstacle.getX(), (int) obstacle.getY(), (int) obstacle.getWidth(), (int) obstacle.getHeight(), obstacleColor);

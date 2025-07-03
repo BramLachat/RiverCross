@@ -1,4 +1,5 @@
 public enum LaneType {
     MORTAL,
-    SURVIVAL;
+    SURVIVAL,
+    MUD;
 }

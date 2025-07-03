@@ -33,7 +33,6 @@ public class Main {
     public static void main(String args[]) {
         InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "RiverCross");
         SetTargetFPS(60);
-        System.out.println("OBSTACLE_SPEED: " + OBSTACLE_SPEED);
 
         PLAYER = new Player((float) WINDOW_WIDTH / 2, WINDOW_HEIGHT - PLAYER_RADIUS - 1);
 
@@ -43,7 +42,7 @@ public class Main {
         Lane survivalLane1 = new Lane(OBSTACLE_SPEED, LaneDirection.RIGHT_TO_LEFT, LaneType.SURVIVAL, LANE_HEIGHT, WINDOW_HEIGHT - 5 * (LANE_HEIGHT), WINDOW_HEIGHT - 4 * (LANE_HEIGHT));
         Lane survivalLane2 = new Lane(OBSTACLE_SPEED + 50, LaneDirection.RIGHT_TO_LEFT, LaneType.SURVIVAL, LANE_HEIGHT, WINDOW_HEIGHT - 6 * (LANE_HEIGHT), WINDOW_HEIGHT - 5 * (LANE_HEIGHT));
         Lane survivalLane3 = new Lane(OBSTACLE_SPEED, LaneDirection.LEFT_TO_RIGHT, LaneType.SURVIVAL, LANE_HEIGHT, WINDOW_HEIGHT - 7 * (LANE_HEIGHT), WINDOW_HEIGHT - 6 * (LANE_HEIGHT));
-        Lane mudLane = new Lane(OBSTACLE_SPEED * 0.5f, LaneDirection.LEFT_TO_RIGHT, LaneType.MORTAL, LANE_HEIGHT * 2, WINDOW_HEIGHT - 9 * (LANE_HEIGHT), WINDOW_HEIGHT - 7 * (LANE_HEIGHT));
+        Lane mudLane = new Lane(OBSTACLE_SPEED * 0.5f, LaneDirection.LEFT_TO_RIGHT, LaneType.MUD, LANE_HEIGHT * 2, WINDOW_HEIGHT - 9 * (LANE_HEIGHT), WINDOW_HEIGHT - 7 * (LANE_HEIGHT));
 
         while (!WindowShouldClose()) {
             BeginDrawing();
@@ -61,41 +60,6 @@ public class Main {
 
             DrawCircleV(PLAYER.getPosition(), PLAYER_RADIUS, BLACK);
 
-            if (mortalLane1.shouldSpawnNewObstacle()) {
-                mortalLane1.addObstacle(OBSTACLE_WIDTH);
-                mortalLane1.setNextObstacleCreationDelay(RANDOM_GENERATOR.nextInt(2000) + 1000);
-            }
-
-            if (mortalLane2.shouldSpawnNewObstacle()) {
-                mortalLane2.addObstacle(OBSTACLE_WIDTH);
-                mortalLane2.setNextObstacleCreationDelay(RANDOM_GENERATOR.nextInt(2000) + 1000);
-            }
-
-            if (mortalLane3.shouldSpawnNewObstacle()) {
-                mortalLane3.addObstacle(OBSTACLE_WIDTH);
-                mortalLane3.setNextObstacleCreationDelay(RANDOM_GENERATOR.nextInt(2000) + 1000);
-            }
-
-            if (survivalLane1.shouldSpawnNewObstacle()) {
-                survivalLane1.addObstacle(OBSTACLE_WIDTH * 2);
-                survivalLane1.setNextObstacleCreationDelay(RANDOM_GENERATOR.nextInt(2000) + 1000);
-            }
-
-            if (survivalLane2.shouldSpawnNewObstacle()) {
-                survivalLane2.addObstacle(OBSTACLE_WIDTH * 2);
-                survivalLane2.setNextObstacleCreationDelay(RANDOM_GENERATOR.nextInt(2000) + 1000);
-            }
-
-            if (survivalLane3.shouldSpawnNewObstacle()) {
-                survivalLane3.addObstacle(OBSTACLE_WIDTH * 2);
-                survivalLane3.setNextObstacleCreationDelay(RANDOM_GENERATOR.nextInt(2000) + 1000);
-            }
-
-            if (mudLane.shouldSpawnNewObstacle()) {
-                mudLane.addObstacle(OBSTACLE_WIDTH);
-                mudLane.setNextObstacleCreationDelay(RANDOM_GENERATOR.nextInt(2000) + 2000);
-            }
-
             for (Obstacle obstacle : mortalLane1.getObstacleList()) {
                 if (CheckCollisionCircleRec(PLAYER.getPosition(), PLAYER_RADIUS * 0.5f, obstacle.getRectangle())) {
                     PLAYER.reset();
@@ -109,6 +73,12 @@ public class Main {
             }
 
             for (Obstacle obstacle : mortalLane3.getObstacleList()) {
+                if (CheckCollisionCircleRec(PLAYER.getPosition(), PLAYER_RADIUS * 0.5f, obstacle.getRectangle())) {
+                    PLAYER.reset();
+                }
+            }
+
+            for (Obstacle obstacle : mudLane.getObstacleList()) {
                 if (CheckCollisionCircleRec(PLAYER.getPosition(), PLAYER_RADIUS * 0.5f, obstacle.getRectangle())) {
                     PLAYER.reset();
                 }
