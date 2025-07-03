@@ -59,20 +59,7 @@ public class Main {
 
             DrawCircleV(PLAYER.getPosition(), PLAYER_RADIUS, BLACK);
 
-
-            // https://www.glfw.org/docs/latest/group__keys.html
-            if (IsKeyPressed(KEY_UP)) {
-                PLAYER.setPosY(PLAYER.getPosY() - LANE_HEIGHT);
-            }
-            if (IsKeyPressed(KEY_DOWN)) {
-                PLAYER.setPosY(PLAYER.getPosY() + LANE_HEIGHT);
-            }
-            if (IsKeyPressed(KEY_LEFT)) {
-                PLAYER.setPosX(PLAYER.getPosX() - OBSTACLE_WIDTH);
-            }
-            if (IsKeyPressed(KEY_RIGHT)) {
-                PLAYER.setPosX(PLAYER.getPosX() + OBSTACLE_WIDTH);
-            }
+            PLAYER.listenForUserInput();
 
             EndDrawing();
         }

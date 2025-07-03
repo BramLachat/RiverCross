@@ -101,6 +101,10 @@ public class Lane {
     }
 
     private void checkCollision() {
+        Main.PLAYER.setInsideMud(false);
+        if (type == LaneType.MUD && Main.PLAYER.isInsideLane(this)) {
+            Main.PLAYER.setInsideMud(true);
+        }
         for (Obstacle obstacle : this.getObstacleList()) {
             if (CheckCollisionCircleRec(Main.PLAYER.getPosition(), Main.PLAYER_RADIUS * 0.5f, obstacle.getRectangle())) {
                 Main.PLAYER.reset();

@@ -1,9 +1,15 @@
 import com.raylib.Raylib;
 
+import static com.raylib.Raylib.*;
+import static com.raylib.Raylib.IsKeyPressed;
+import static com.raylib.Raylib.KEY_LEFT;
+import static com.raylib.Raylib.KEY_RIGHT;
+
 public class Player {
     private Raylib.Vector2 position;
     private float startPosX;
     private float startPosY;
+    private boolean isInsideMud;
 
     public Player(float startPosX, float startPosY) {
         this.position = new Raylib.Vector2();
@@ -13,9 +19,37 @@ public class Player {
         this.startPosY = startPosY;
     }
 
+    public void listenForUserInput() {
+        // https://www.glfw.org/docs/latest/group__keys.html
+        if (IsKeyPressed(KEY_UP)) {
+            if (isInsideMud) {
+                this.setPosY(this.getPosY() - Main.LANE_HEIGHT * 0.2f);
+            } else {
+                this.setPosY(this.getPosY() - Main.LANE_HEIGHT);
+            }
+        }
+        if (IsKeyPressed(KEY_DOWN)) {
+            if (isInsideMud) {
+                this.setPosY(this.getPosY() + Main.LANE_HEIGHT * 0.2f);
+            } else {
+                this.setPosY(this.getPosY() + Main.LANE_HEIGHT);
+            }
+        }
+        if (IsKeyPressed(KEY_LEFT)) {
+            this.setPosX(this.getPosX() - Main.OBSTACLE_WIDTH);
+        }
+        if (IsKeyPressed(KEY_RIGHT)) {
+            this.setPosX(this.getPosX() + Main.OBSTACLE_WIDTH);
+        }
+    }
+
     public void reset() {
         this.position.x(this.startPosX);
         this.position.y(this.startPosY);
+    }
+
+    public void setInsideMud(boolean insideMud) {
+        isInsideMud = insideMud;
     }
 
     public Raylib.Vector2 getPosition() {
