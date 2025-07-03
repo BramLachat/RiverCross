@@ -10,11 +10,6 @@ import static com.raylib.Raylib.DrawFPS;
 import static com.raylib.Raylib.EndDrawing;
 import static com.raylib.Raylib.GetFrameTime;
 import static com.raylib.Raylib.InitWindow;
-import static com.raylib.Raylib.IsKeyPressed;
-import static com.raylib.Raylib.KEY_DOWN;
-import static com.raylib.Raylib.KEY_LEFT;
-import static com.raylib.Raylib.KEY_RIGHT;
-import static com.raylib.Raylib.KEY_UP;
 import static com.raylib.Raylib.SetTargetFPS;
 import static com.raylib.Raylib.WindowShouldClose;
 
@@ -42,6 +37,7 @@ public class Main {
         Lane survivalLane2 = new Lane(OBSTACLE_SPEED + 50, LaneDirection.RIGHT_TO_LEFT, LaneType.SURVIVAL, LANE_HEIGHT, WINDOW_HEIGHT - 6 * (LANE_HEIGHT), WINDOW_HEIGHT - 5 * (LANE_HEIGHT), OBSTACLE_WIDTH * 2);
         Lane survivalLane3 = new Lane(OBSTACLE_SPEED, LaneDirection.LEFT_TO_RIGHT, LaneType.SURVIVAL, LANE_HEIGHT, WINDOW_HEIGHT - 7 * (LANE_HEIGHT), WINDOW_HEIGHT - 6 * (LANE_HEIGHT), OBSTACLE_WIDTH * 2);
         Lane mudLane = new Lane(OBSTACLE_SPEED * 0.5f, LaneDirection.LEFT_TO_RIGHT, LaneType.MUD, LANE_HEIGHT * 2, WINDOW_HEIGHT - 9 * (LANE_HEIGHT), WINDOW_HEIGHT - 7 * (LANE_HEIGHT), OBSTACLE_WIDTH);
+        Lane survivalLane4 = new Lane(OBSTACLE_SPEED, LaneDirection.LEFT_TO_RIGHT, LaneType.SURVIVAL, LANE_HEIGHT, WINDOW_HEIGHT - 10 * (LANE_HEIGHT), WINDOW_HEIGHT - 9 * (LANE_HEIGHT), OBSTACLE_WIDTH * 10);
 
         while (!WindowShouldClose()) {
             BeginDrawing();
@@ -56,6 +52,7 @@ public class Main {
             survivalLane2.start(deltaTime);
             survivalLane3.start(deltaTime);
             mudLane.start(deltaTime);
+            survivalLane4.start(deltaTime);
 
             DrawCircleV(PLAYER.getPosition(), PLAYER_RADIUS, BLACK);
 

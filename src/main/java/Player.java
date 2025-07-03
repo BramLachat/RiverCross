@@ -82,6 +82,10 @@ public class Player {
     }
 
     public boolean isInsideLane(Lane lane) {
-        return this.position.y() < lane.getBottomY() && this.position.y() > lane.getTopY();
+        boolean isInsideLane = this.position.y() < lane.getBottomY() && this.position.y() > lane.getTopY();
+        if (isInsideLane && lane.getType() != LaneType.MUD) {
+            this.position.y(lane.getPlayerCenterPosY());
+        }
+        return isInsideLane;
     }
 }

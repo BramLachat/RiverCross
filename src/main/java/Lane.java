@@ -140,4 +140,12 @@ public class Lane {
     public int getBottomY() {
         return bottomY;
     }
+
+    public LaneType getType() {
+        return type;
+    }
+
+    public float getPlayerCenterPosY() {
+        return getBottomY() - (Main.LANE_HEIGHT * 0.5f) + 1;
+    }
 }
