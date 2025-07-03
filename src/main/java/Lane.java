@@ -20,13 +20,13 @@ public class Lane {
     private int topY;
     private int bottomY;
 
-    public Lane(float speed, LaneDirection direction, int nextObstacleCreationDelay, LaneType type, int height, int topY, int bottomY) {
+    public Lane(float speed, LaneDirection direction, LaneType type, int height, int topY, int bottomY) {
         this.obstacleList = new ArrayList<>();
         this.lastCreatedObstacleTimestamp = Instant.now();
         this.nextObstacleCreationDelay = 0;
         this.speed = speed;
         this.direction = direction;
-        this.nextObstacleCreationDelay = nextObstacleCreationDelay;
+        this.nextObstacleCreationDelay = 0;
         this.type = type;
         this.height = height;
         this.topY = topY;
@@ -39,11 +39,6 @@ public class Lane {
 
     public boolean shouldSpawnNewObstacle() {
         return Duration.between(lastCreatedObstacleTimestamp, Instant.now()).toMillis() > nextObstacleCreationDelay;
-    }
-
-    public void addObstacle(Obstacle obstacle) {
-        obstacleList.add(obstacle);
-        lastCreatedObstacleTimestamp = Instant.now();
     }
 
     public void addObstacle(int obstacleWidth) {
