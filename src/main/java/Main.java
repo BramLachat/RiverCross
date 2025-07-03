@@ -3,7 +3,6 @@ import java.util.Random;
 import static com.raylib.Colors.BLACK;
 import static com.raylib.Colors.RAYWHITE;
 import static com.raylib.Raylib.BeginDrawing;
-import static com.raylib.Raylib.CheckCollisionCircleRec;
 import static com.raylib.Raylib.ClearBackground;
 import static com.raylib.Raylib.CloseWindow;
 import static com.raylib.Raylib.DrawCircleV;
@@ -36,13 +35,13 @@ public class Main {
 
         PLAYER = new Player((float) WINDOW_WIDTH / 2, WINDOW_HEIGHT - PLAYER_RADIUS - 1);
 
-        Lane mortalLane1 = new Lane(OBSTACLE_SPEED, LaneDirection.LEFT_TO_RIGHT, LaneType.MORTAL, LANE_HEIGHT, WINDOW_HEIGHT - 2 * (LANE_HEIGHT), WINDOW_HEIGHT - 1 * (LANE_HEIGHT));
-        Lane mortalLane2 = new Lane(OBSTACLE_SPEED - 50, LaneDirection.RIGHT_TO_LEFT, LaneType.MORTAL, LANE_HEIGHT, WINDOW_HEIGHT - 3 * (LANE_HEIGHT), WINDOW_HEIGHT - 2 * (LANE_HEIGHT));
-        Lane mortalLane3 = new Lane(OBSTACLE_SPEED + 50, LaneDirection.LEFT_TO_RIGHT, LaneType.MORTAL, LANE_HEIGHT, WINDOW_HEIGHT - 4 * (LANE_HEIGHT), WINDOW_HEIGHT - 3 * (LANE_HEIGHT));
-        Lane survivalLane1 = new Lane(OBSTACLE_SPEED, LaneDirection.RIGHT_TO_LEFT, LaneType.SURVIVAL, LANE_HEIGHT, WINDOW_HEIGHT - 5 * (LANE_HEIGHT), WINDOW_HEIGHT - 4 * (LANE_HEIGHT));
-        Lane survivalLane2 = new Lane(OBSTACLE_SPEED + 50, LaneDirection.RIGHT_TO_LEFT, LaneType.SURVIVAL, LANE_HEIGHT, WINDOW_HEIGHT - 6 * (LANE_HEIGHT), WINDOW_HEIGHT - 5 * (LANE_HEIGHT));
-        Lane survivalLane3 = new Lane(OBSTACLE_SPEED, LaneDirection.LEFT_TO_RIGHT, LaneType.SURVIVAL, LANE_HEIGHT, WINDOW_HEIGHT - 7 * (LANE_HEIGHT), WINDOW_HEIGHT - 6 * (LANE_HEIGHT));
-        Lane mudLane = new Lane(OBSTACLE_SPEED * 0.5f, LaneDirection.LEFT_TO_RIGHT, LaneType.MUD, LANE_HEIGHT * 2, WINDOW_HEIGHT - 9 * (LANE_HEIGHT), WINDOW_HEIGHT - 7 * (LANE_HEIGHT));
+        Lane mortalLane1 = new Lane(OBSTACLE_SPEED, LaneDirection.LEFT_TO_RIGHT, LaneType.MORTAL, LANE_HEIGHT, WINDOW_HEIGHT - 2 * (LANE_HEIGHT), WINDOW_HEIGHT - 1 * (LANE_HEIGHT), OBSTACLE_WIDTH);
+        Lane mortalLane2 = new Lane(OBSTACLE_SPEED - 50, LaneDirection.RIGHT_TO_LEFT, LaneType.MORTAL, LANE_HEIGHT, WINDOW_HEIGHT - 3 * (LANE_HEIGHT), WINDOW_HEIGHT - 2 * (LANE_HEIGHT), OBSTACLE_WIDTH);
+        Lane mortalLane3 = new Lane(OBSTACLE_SPEED + 50, LaneDirection.LEFT_TO_RIGHT, LaneType.MORTAL, LANE_HEIGHT, WINDOW_HEIGHT - 4 * (LANE_HEIGHT), WINDOW_HEIGHT - 3 * (LANE_HEIGHT), OBSTACLE_WIDTH);
+        Lane survivalLane1 = new Lane(OBSTACLE_SPEED, LaneDirection.RIGHT_TO_LEFT, LaneType.SURVIVAL, LANE_HEIGHT, WINDOW_HEIGHT - 5 * (LANE_HEIGHT), WINDOW_HEIGHT - 4 * (LANE_HEIGHT), OBSTACLE_WIDTH * 2);
+        Lane survivalLane2 = new Lane(OBSTACLE_SPEED + 50, LaneDirection.RIGHT_TO_LEFT, LaneType.SURVIVAL, LANE_HEIGHT, WINDOW_HEIGHT - 6 * (LANE_HEIGHT), WINDOW_HEIGHT - 5 * (LANE_HEIGHT), OBSTACLE_WIDTH * 2);
+        Lane survivalLane3 = new Lane(OBSTACLE_SPEED, LaneDirection.LEFT_TO_RIGHT, LaneType.SURVIVAL, LANE_HEIGHT, WINDOW_HEIGHT - 7 * (LANE_HEIGHT), WINDOW_HEIGHT - 6 * (LANE_HEIGHT), OBSTACLE_WIDTH * 2);
+        Lane mudLane = new Lane(OBSTACLE_SPEED * 0.5f, LaneDirection.LEFT_TO_RIGHT, LaneType.MUD, LANE_HEIGHT * 2, WINDOW_HEIGHT - 9 * (LANE_HEIGHT), WINDOW_HEIGHT - 7 * (LANE_HEIGHT), OBSTACLE_WIDTH);
 
         while (!WindowShouldClose()) {
             BeginDrawing();
@@ -50,72 +49,15 @@ public class Main {
             DrawFPS(0, 0);
             float deltaTime = GetFrameTime(); // Get the time elapsed since last frame
 
-            mortalLane1.draw(deltaTime);
-            mortalLane2.draw(deltaTime);
-            mortalLane3.draw(deltaTime);
-            survivalLane1.draw(deltaTime);
-            survivalLane2.draw(deltaTime);
-            survivalLane3.draw(deltaTime);
-            mudLane.draw(deltaTime);
+            mortalLane1.start(deltaTime);
+            mortalLane2.start(deltaTime);
+            mortalLane3.start(deltaTime);
+            survivalLane1.start(deltaTime);
+            survivalLane2.start(deltaTime);
+            survivalLane3.start(deltaTime);
+            mudLane.start(deltaTime);
 
             DrawCircleV(PLAYER.getPosition(), PLAYER_RADIUS, BLACK);
-
-            for (Obstacle obstacle : mortalLane1.getObstacleList()) {
-                if (CheckCollisionCircleRec(PLAYER.getPosition(), PLAYER_RADIUS * 0.5f, obstacle.getRectangle())) {
-                    PLAYER.reset();
-                }
-            }
-
-            for (Obstacle obstacle : mortalLane2.getObstacleList()) {
-                if (CheckCollisionCircleRec(PLAYER.getPosition(), PLAYER_RADIUS * 0.5f, obstacle.getRectangle())) {
-                    PLAYER.reset();
-                }
-            }
-
-            for (Obstacle obstacle : mortalLane3.getObstacleList()) {
-                if (CheckCollisionCircleRec(PLAYER.getPosition(), PLAYER_RADIUS * 0.5f, obstacle.getRectangle())) {
-                    PLAYER.reset();
-                }
-            }
-
-            for (Obstacle obstacle : mudLane.getObstacleList()) {
-                if (CheckCollisionCircleRec(PLAYER.getPosition(), PLAYER_RADIUS * 0.5f, obstacle.getRectangle())) {
-                    PLAYER.reset();
-                }
-            }
-
-            boolean isOnTopOfAnObstacle = false;
-            for (Obstacle obstacle : survivalLane1.getObstacleList()) {
-                if (CheckCollisionCircleRec(PLAYER.getPosition(), 0, obstacle.getRectangle())) {
-                    PLAYER.move(survivalLane1.getDirection(), survivalLane1.getSpeed(), deltaTime);
-                    isOnTopOfAnObstacle = true;
-                }
-            }
-            if (PLAYER.isInsideLane(survivalLane1) && !isOnTopOfAnObstacle) {
-                PLAYER.reset();
-            }
-
-            isOnTopOfAnObstacle = false;
-            for (Obstacle obstacle : survivalLane2.getObstacleList()) {
-                if (CheckCollisionCircleRec(PLAYER.getPosition(), 0, obstacle.getRectangle())) {
-                    PLAYER.move(survivalLane2.getDirection(), survivalLane2.getSpeed(), deltaTime);
-                    isOnTopOfAnObstacle = true;
-                }
-            }
-            if (PLAYER.isInsideLane(survivalLane2) && !isOnTopOfAnObstacle) {
-                PLAYER.reset();
-            }
-
-            isOnTopOfAnObstacle = false;
-            for (Obstacle obstacle : survivalLane3.getObstacleList()) {
-                if (CheckCollisionCircleRec(PLAYER.getPosition(), 0, obstacle.getRectangle())) {
-                    PLAYER.move(survivalLane3.getDirection(), survivalLane3.getSpeed(), deltaTime);
-                    isOnTopOfAnObstacle = true;
-                }
-            }
-            if (PLAYER.isInsideLane(survivalLane3) && !isOnTopOfAnObstacle) {
-                PLAYER.reset();
-            }
 
 
             // https://www.glfw.org/docs/latest/group__keys.html

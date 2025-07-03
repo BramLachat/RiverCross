@@ -7,6 +7,7 @@ import java.util.List;
 
 import static com.raylib.Colors.GREEN;
 import static com.raylib.Colors.RED;
+import static com.raylib.Raylib.CheckCollisionCircleRec;
 import static com.raylib.Raylib.DrawRectangle;
 
 public class Lane {
@@ -19,8 +20,9 @@ public class Lane {
     private int height;
     private int topY;
     private int bottomY;
+    private int obstacleWidth;
 
-    public Lane(float speed, LaneDirection direction, LaneType type, int height, int topY, int bottomY) {
+    public Lane(float speed, LaneDirection direction, LaneType type, int height, int topY, int bottomY, int obstacleWidth) {
         this.obstacleList = new ArrayList<>();
         this.lastCreatedObstacleTimestamp = Instant.now();
         this.nextObstacleCreationDelay = 0;
@@ -31,6 +33,7 @@ public class Lane {
         this.height = height;
         this.topY = topY;
         this.bottomY = bottomY;
+        this.obstacleWidth = obstacleWidth;
     }
 
     public void setNextObstacleCreationDelay(int nextObstacleCreationDelay) {
@@ -41,7 +44,7 @@ public class Lane {
         return Duration.between(lastCreatedObstacleTimestamp, Instant.now()).toMillis() > nextObstacleCreationDelay;
     }
 
-    public void addObstacle(int obstacleWidth) {
+    public void addObstacle() {
         if (direction == LaneDirection.LEFT_TO_RIGHT) {
             obstacleList.add(new Obstacle(height, obstacleWidth, 0 - obstacleWidth, topY));
             lastCreatedObstacleTimestamp = Instant.now();
@@ -60,10 +63,10 @@ public class Lane {
         this.obstacleList.removeAll(obstaclesToRemove);
     }
 
-    public void draw(float deltaTime) {
+    public void start(float deltaTime) {
 
         if (this.shouldSpawnNewObstacle()) {
-            this.addObstacle(Main.OBSTACLE_WIDTH);
+            this.addObstacle();
             // TODO @Bram: clean this up!
             this.setNextObstacleCreationDelay(Main.RANDOM_GENERATOR.nextInt(2000) + 1000);
             if (type == LaneType.MUD) {
@@ -85,6 +88,37 @@ public class Lane {
             }
         }
         this.removeObstacles(obstaclesToRemove);
+
+        if (type == LaneType.MORTAL) {
+            checkCollision();
+        }
+        if (type == LaneType.SURVIVAL) {
+            checkOnTop(deltaTime);
+        }
+        if (type == LaneType.MUD) {
+            checkCollision();
+        }
+    }
+
+    private void checkCollision() {
+        for (Obstacle obstacle : this.getObstacleList()) {
+            if (CheckCollisionCircleRec(Main.PLAYER.getPosition(), Main.PLAYER_RADIUS * 0.5f, obstacle.getRectangle())) {
+                Main.PLAYER.reset();
+            }
+        }
+    }
+
+    private void checkOnTop(float deltaTime) {
+        boolean isOnTopOfAnObstacle = false;
+        for (Obstacle obstacle : this.getObstacleList()) {
+            if (CheckCollisionCircleRec(Main.PLAYER.getPosition(), 0, obstacle.getRectangle())) {
+                Main.PLAYER.move(this.getDirection(), this.getSpeed(), deltaTime);
+                isOnTopOfAnObstacle = true;
+            }
+        }
+        if (Main.PLAYER.isInsideLane(this) && !isOnTopOfAnObstacle) {
+            Main.PLAYER.reset();
+        }
     }
 
     public LaneDirection getDirection() {
