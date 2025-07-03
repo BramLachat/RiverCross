@@ -70,7 +70,7 @@ public class Lane {
         Raylib.Color obstacleColor = this.type == LaneType.MORTAL ? RED : GREEN;
         for (Obstacle obstacle : this.obstacleList) {
             if (obstacle.isInsideWindow(this.direction)) {
-                DrawRectangle((int) obstacle.getX(), (int) obstacle.getY(), (int) obstacle.getWidth(), (int) obstacle.getHeight(), obstacleColor); // DrawRectangle(rectangleXPos_1, 800, 50,50, RED);
+                DrawRectangle((int) obstacle.getX(), (int) obstacle.getY(), (int) obstacle.getWidth(), (int) obstacle.getHeight(), obstacleColor);
                 obstacle.moveToNextPosition(deltaTime, this.direction, this.speed);
             } else {
                 obstaclesToRemove.add(obstacle);

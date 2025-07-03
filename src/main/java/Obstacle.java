@@ -16,7 +16,7 @@ public class Obstacle {
         if (direction == LaneDirection.LEFT_TO_RIGHT) {
             return this.rectangle.x() < Main.WINDOW_WIDTH;
         } else {
-            return this.rectangle.x() > 0;
+            return this.rectangle.x() > 0 - this.rectangle.width();
         }
     }
 

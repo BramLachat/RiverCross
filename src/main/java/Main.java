@@ -41,6 +41,8 @@ public class Main {
         Lane lane2 = new Lane(OBSTACLE_SPEED - 50, LaneDirection.RIGHT_TO_LEFT, RANDOM_GENERATOR.nextInt(2000) + 1000, LaneType.MORTAL, LANE_HEIGHT, WINDOW_HEIGHT - 3 * (LANE_HEIGHT), WINDOW_HEIGHT - 2 * (LANE_HEIGHT));
         Lane lane3 = new Lane(OBSTACLE_SPEED + 50, LaneDirection.LEFT_TO_RIGHT, RANDOM_GENERATOR.nextInt(2000) + 1000, LaneType.MORTAL, LANE_HEIGHT, WINDOW_HEIGHT - 4 * (LANE_HEIGHT), WINDOW_HEIGHT - 3 * (LANE_HEIGHT));
         Lane lane4 = new Lane(OBSTACLE_SPEED, LaneDirection.RIGHT_TO_LEFT, RANDOM_GENERATOR.nextInt(2000) + 1000, LaneType.SURVIVAL, LANE_HEIGHT, WINDOW_HEIGHT - 5 * (LANE_HEIGHT), WINDOW_HEIGHT - 4 * (LANE_HEIGHT));
+        Lane lane5 = new Lane(OBSTACLE_SPEED + 50, LaneDirection.RIGHT_TO_LEFT, RANDOM_GENERATOR.nextInt(2000) + 1000, LaneType.SURVIVAL, LANE_HEIGHT, WINDOW_HEIGHT - 6 * (LANE_HEIGHT), WINDOW_HEIGHT - 5 * (LANE_HEIGHT));
+        Lane lane6 = new Lane(OBSTACLE_SPEED, LaneDirection.LEFT_TO_RIGHT, RANDOM_GENERATOR.nextInt(2000) + 1000, LaneType.SURVIVAL, LANE_HEIGHT, WINDOW_HEIGHT - 7 * (LANE_HEIGHT), WINDOW_HEIGHT - 6 * (LANE_HEIGHT));
 
         while (!WindowShouldClose()) {
             BeginDrawing();
@@ -52,6 +54,8 @@ public class Main {
             lane2.draw(deltaTime);
             lane3.draw(deltaTime);
             lane4.draw(deltaTime);
+            lane5.draw(deltaTime);
+            lane6.draw(deltaTime);
 
             DrawCircleV(PLAYER.getPosition(), PLAYER_RADIUS, BLACK);
 
@@ -73,6 +77,16 @@ public class Main {
             if (lane4.shouldSpawnNewObstacle()) {
                 lane4.addObstacle(OBSTACLE_WIDTH * 2);
                 lane4.setNextObstacleCreationDelay(RANDOM_GENERATOR.nextInt(2000) + 1000);
+            }
+
+            if (lane5.shouldSpawnNewObstacle()) {
+                lane5.addObstacle(OBSTACLE_WIDTH * 2);
+                lane5.setNextObstacleCreationDelay(RANDOM_GENERATOR.nextInt(2000) + 1000);
+            }
+
+            if (lane6.shouldSpawnNewObstacle()) {
+                lane6.addObstacle(OBSTACLE_WIDTH * 2);
+                lane6.setNextObstacleCreationDelay(RANDOM_GENERATOR.nextInt(2000) + 1000);
             }
 
             for (Obstacle obstacle : lane1.getObstacleList()) {
@@ -101,6 +115,28 @@ public class Main {
                 }
             }
             if (PLAYER.isInsideLane(lane4) && !isOnTopOfAnObstacle) {
+                PLAYER.reset();
+            }
+
+            isOnTopOfAnObstacle = false;
+            for (Obstacle obstacle : lane5.getObstacleList()) {
+                if (CheckCollisionCircleRec(PLAYER.getPosition(), 0, obstacle.getRectangle())) {
+                    PLAYER.move(lane5.getDirection(), lane5.getSpeed(), deltaTime);
+                    isOnTopOfAnObstacle = true;
+                }
+            }
+            if (PLAYER.isInsideLane(lane5) && !isOnTopOfAnObstacle) {
+                PLAYER.reset();
+            }
+
+            isOnTopOfAnObstacle = false;
+            for (Obstacle obstacle : lane6.getObstacleList()) {
+                if (CheckCollisionCircleRec(PLAYER.getPosition(), 0, obstacle.getRectangle())) {
+                    PLAYER.move(lane6.getDirection(), lane6.getSpeed(), deltaTime);
+                    isOnTopOfAnObstacle = true;
+                }
+            }
+            if (PLAYER.isInsideLane(lane6) && !isOnTopOfAnObstacle) {
                 PLAYER.reset();
             }
 
