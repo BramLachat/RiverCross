@@ -67,6 +67,20 @@ public class Lane {
             this.nextObstacleCreationDelay = RandomSettingsGenerator.getObstacleCreationDelay(this.type);
         }
 
+        if (type == LaneType.MORTAL) {
+            checkCollision();
+        }
+        if (type == LaneType.SURVIVAL) {
+            checkOnTop(deltaTime);
+        }
+        if (type == LaneType.MUD) {
+            checkCollision();
+            DrawRectangle(0, topY, Main.WINDOW_WIDTH, height, BROWN);
+        }
+        if (type == LaneType.BASE) {
+            DrawRectangle(0, topY, Main.WINDOW_WIDTH, height, SKYBLUE);
+        }
+
         List<Obstacle> obstaclesToRemove = new ArrayList<>();
         // TODO @Bram: clean this up!
         Raylib.Color obstacleColor = (this.type == LaneType.MORTAL || this.type == LaneType.MUD) ? RED : GREEN;
@@ -80,19 +94,6 @@ public class Lane {
             }
         }
         this.removeObstacles(obstaclesToRemove);
-
-        if (type == LaneType.MORTAL) {
-            checkCollision();
-        }
-        if (type == LaneType.SURVIVAL) {
-            checkOnTop(deltaTime);
-        }
-        if (type == LaneType.MUD) {
-            checkCollision();
-        }
-        if (type == LaneType.BASE) {
-            DrawRectangle(0, topY, Main.WINDOW_WIDTH, height, SKYBLUE);
-        }
     }
 
     private void checkCollision() {
