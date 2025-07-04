@@ -22,12 +22,12 @@ public class Lane {
     private int bottomY;
     private int obstacleWidth;
 
-    public Lane(float speed, LaneDirection direction, LaneType type, int height, int topY, int bottomY, int obstacleWidth) {
+    public Lane(LaneType type, int height, int topY, int bottomY, int obstacleWidth) {
         this.obstacleList = new ArrayList<>();
         this.lastCreatedObstacleTimestamp = Instant.now();
         this.nextObstacleCreationDelay = 0;
-        this.speed = speed;
-        this.direction = direction;
+        this.speed = RandomSettingsGenerator.getObstacleSpeed();
+        this.direction = RandomSettingsGenerator.getDirection();
         this.nextObstacleCreationDelay = 0;
         this.type = type;
         this.height = height;
@@ -64,15 +64,9 @@ public class Lane {
     }
 
     public void start(float deltaTime) {
-
         if (this.shouldSpawnNewObstacle()) {
             this.addObstacle();
-            // TODO @Bram: clean this up!
-            this.setNextObstacleCreationDelay(Main.RANDOM_GENERATOR.nextInt(2000) + 1000);
-            if (type == LaneType.MUD) {
-                this.setNextObstacleCreationDelay(Main.RANDOM_GENERATOR.nextInt(2000) + 2000);
-            }
-            // TODO @Bram: end
+            this.nextObstacleCreationDelay = RandomSettingsGenerator.getObstacleCreationDelay(this.type);
         }
 
         List<Obstacle> obstaclesToRemove = new ArrayList<>();

@@ -65,7 +65,9 @@ public class Player {
     }
 
     public void setPosY(float y) {
-        this.position.y(y);
+        if (y < Main.WINDOW_HEIGHT && y > 0) {
+            this.position.y(y);
+        }
     }
 
     public void setPosX(float x) {

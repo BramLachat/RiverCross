@@ -20,7 +20,6 @@ public class Main {
     public static final int LANE_HEIGHT = WINDOW_WIDTH / 20;
     public static final int OBSTACLE_WIDTH = WINDOW_WIDTH / 20;
     public static final int PLAYER_RADIUS = LANE_HEIGHT / 2 - 2;
-    public static final float OBSTACLE_SPEED = WINDOW_WIDTH / (600 / 150.0f);
     public static final Random RANDOM_GENERATOR = new Random();
     public static Player PLAYER = null;
 
@@ -30,14 +29,14 @@ public class Main {
 
         PLAYER = new Player((float) WINDOW_WIDTH / 2, WINDOW_HEIGHT - PLAYER_RADIUS - 1);
 
-        Lane mortalLane1 = new Lane(OBSTACLE_SPEED, LaneDirection.LEFT_TO_RIGHT, LaneType.MORTAL, LANE_HEIGHT, WINDOW_HEIGHT - 2 * (LANE_HEIGHT), WINDOW_HEIGHT - 1 * (LANE_HEIGHT), OBSTACLE_WIDTH);
-        Lane mortalLane2 = new Lane(OBSTACLE_SPEED - 50, LaneDirection.RIGHT_TO_LEFT, LaneType.MORTAL, LANE_HEIGHT, WINDOW_HEIGHT - 3 * (LANE_HEIGHT), WINDOW_HEIGHT - 2 * (LANE_HEIGHT), OBSTACLE_WIDTH);
-        Lane mortalLane3 = new Lane(OBSTACLE_SPEED + 50, LaneDirection.LEFT_TO_RIGHT, LaneType.MORTAL, LANE_HEIGHT, WINDOW_HEIGHT - 4 * (LANE_HEIGHT), WINDOW_HEIGHT - 3 * (LANE_HEIGHT), OBSTACLE_WIDTH);
-        Lane survivalLane1 = new Lane(OBSTACLE_SPEED, LaneDirection.RIGHT_TO_LEFT, LaneType.SURVIVAL, LANE_HEIGHT, WINDOW_HEIGHT - 5 * (LANE_HEIGHT), WINDOW_HEIGHT - 4 * (LANE_HEIGHT), OBSTACLE_WIDTH * 2);
-        Lane survivalLane2 = new Lane(OBSTACLE_SPEED + 50, LaneDirection.RIGHT_TO_LEFT, LaneType.SURVIVAL, LANE_HEIGHT, WINDOW_HEIGHT - 6 * (LANE_HEIGHT), WINDOW_HEIGHT - 5 * (LANE_HEIGHT), OBSTACLE_WIDTH * 2);
-        Lane survivalLane3 = new Lane(OBSTACLE_SPEED, LaneDirection.LEFT_TO_RIGHT, LaneType.SURVIVAL, LANE_HEIGHT, WINDOW_HEIGHT - 7 * (LANE_HEIGHT), WINDOW_HEIGHT - 6 * (LANE_HEIGHT), OBSTACLE_WIDTH * 2);
-        Lane mudLane = new Lane(OBSTACLE_SPEED * 0.5f, LaneDirection.LEFT_TO_RIGHT, LaneType.MUD, LANE_HEIGHT * 2, WINDOW_HEIGHT - 9 * (LANE_HEIGHT), WINDOW_HEIGHT - 7 * (LANE_HEIGHT), OBSTACLE_WIDTH);
-        Lane survivalLane4 = new Lane(OBSTACLE_SPEED, LaneDirection.LEFT_TO_RIGHT, LaneType.SURVIVAL, LANE_HEIGHT, WINDOW_HEIGHT - 10 * (LANE_HEIGHT), WINDOW_HEIGHT - 9 * (LANE_HEIGHT), OBSTACLE_WIDTH * 10);
+        Lane mortalLane1 = new Lane(LaneType.MORTAL, LANE_HEIGHT, WINDOW_HEIGHT - 2 * (LANE_HEIGHT), WINDOW_HEIGHT - 1 * (LANE_HEIGHT), OBSTACLE_WIDTH);
+        Lane mortalLane2 = new Lane(LaneType.MORTAL, LANE_HEIGHT, WINDOW_HEIGHT - 3 * (LANE_HEIGHT), WINDOW_HEIGHT - 2 * (LANE_HEIGHT), OBSTACLE_WIDTH);
+        Lane mortalLane3 = new Lane(LaneType.MORTAL, LANE_HEIGHT, WINDOW_HEIGHT - 4 * (LANE_HEIGHT), WINDOW_HEIGHT - 3 * (LANE_HEIGHT), OBSTACLE_WIDTH);
+        Lane survivalLane1 = new Lane(LaneType.SURVIVAL, LANE_HEIGHT, WINDOW_HEIGHT - 5 * (LANE_HEIGHT), WINDOW_HEIGHT - 4 * (LANE_HEIGHT), OBSTACLE_WIDTH * 2);
+        Lane survivalLane2 = new Lane(LaneType.SURVIVAL, LANE_HEIGHT, WINDOW_HEIGHT - 6 * (LANE_HEIGHT), WINDOW_HEIGHT - 5 * (LANE_HEIGHT), OBSTACLE_WIDTH * 2);
+        Lane survivalLane3 = new Lane(LaneType.SURVIVAL, LANE_HEIGHT, WINDOW_HEIGHT - 7 * (LANE_HEIGHT), WINDOW_HEIGHT - 6 * (LANE_HEIGHT), OBSTACLE_WIDTH * 2);
+        Lane mudLane = new Lane(LaneType.MUD, LANE_HEIGHT * 2, WINDOW_HEIGHT - 9 * (LANE_HEIGHT), WINDOW_HEIGHT - 7 * (LANE_HEIGHT), OBSTACLE_WIDTH);
+        Lane survivalLane4 = new Lane(LaneType.SURVIVAL, LANE_HEIGHT, WINDOW_HEIGHT - 10 * (LANE_HEIGHT), WINDOW_HEIGHT - 9 * (LANE_HEIGHT), OBSTACLE_WIDTH * 10);
 
         while (!WindowShouldClose()) {
             BeginDrawing();
