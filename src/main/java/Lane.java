@@ -5,8 +5,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.raylib.Colors.GREEN;
-import static com.raylib.Colors.RED;
+import static com.raylib.Colors.*;
 import static com.raylib.Raylib.CheckCollisionCircleRec;
 import static com.raylib.Raylib.DrawRectangle;
 
@@ -36,11 +35,10 @@ public class Lane {
         this.obstacleWidth = obstacleWidth;
     }
 
-    public void setNextObstacleCreationDelay(int nextObstacleCreationDelay) {
-        this.nextObstacleCreationDelay = nextObstacleCreationDelay;
-    }
-
     public boolean shouldSpawnNewObstacle() {
+        if (type == LaneType.BASE) {
+            return false;
+        }
         return Duration.between(lastCreatedObstacleTimestamp, Instant.now()).toMillis() > nextObstacleCreationDelay;
     }
 
@@ -91,6 +89,9 @@ public class Lane {
         }
         if (type == LaneType.MUD) {
             checkCollision();
+        }
+        if (type == LaneType.BASE) {
+            DrawRectangle(0, topY, Main.WINDOW_WIDTH, height, SKYBLUE);
         }
     }
 

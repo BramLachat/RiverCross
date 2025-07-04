@@ -71,7 +71,13 @@ public class Player {
     }
 
     public void setPosX(float x) {
-        this.position.x(x);
+        if (x < Main.WINDOW_WIDTH && x > 0) {
+            this.position.x(x);
+        } else if (x >= Main.WINDOW_WIDTH) {
+            this.position.x(Main.WINDOW_WIDTH - Main.PLAYER_RADIUS);
+        } else if (x <= 0) {
+            this.position.x(Main.PLAYER_RADIUS);
+        }
     }
 
     // Move the player in the same direction and with the same speed as the obstacles in the lane.
