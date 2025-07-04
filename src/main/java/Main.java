@@ -1,17 +1,7 @@
 import java.util.Random;
 
-import static com.raylib.Colors.BLACK;
-import static com.raylib.Colors.RAYWHITE;
-import static com.raylib.Raylib.BeginDrawing;
-import static com.raylib.Raylib.ClearBackground;
-import static com.raylib.Raylib.CloseWindow;
-import static com.raylib.Raylib.DrawCircleV;
-import static com.raylib.Raylib.DrawFPS;
-import static com.raylib.Raylib.EndDrawing;
-import static com.raylib.Raylib.GetFrameTime;
-import static com.raylib.Raylib.InitWindow;
-import static com.raylib.Raylib.SetTargetFPS;
-import static com.raylib.Raylib.WindowShouldClose;
+import static com.raylib.Colors.*;
+import static com.raylib.Raylib.*;
 
 public class Main {
 
@@ -20,7 +10,6 @@ public class Main {
     public static final int LANE_HEIGHT = WINDOW_WIDTH / 20;
     public static final int OBSTACLE_WIDTH = WINDOW_WIDTH / 20;
     public static final int PLAYER_RADIUS = LANE_HEIGHT / 2 - 2;
-    public static final Random RANDOM_GENERATOR = new Random();
     public static Player PLAYER = null;
 
     public static void main(String args[]) {
@@ -55,9 +44,7 @@ public class Main {
             mudLane.start(deltaTime);
             finishLane.start(deltaTime);
 
-            DrawCircleV(PLAYER.getPosition(), PLAYER_RADIUS, BLACK);
-
-            PLAYER.listenForUserInput();
+            PLAYER.render();
 
             EndDrawing();
         }
