@@ -18,6 +18,8 @@ public class Main {
 
         PLAYER = new Player((float) WINDOW_WIDTH / 2, WINDOW_HEIGHT - PLAYER_RADIUS - 1);
 
+        ChainSaw chainSaw = new ChainSaw();
+
         Lane baseLane = new Lane(LaneType.BASE, LANE_HEIGHT, WINDOW_HEIGHT - 1 * (LANE_HEIGHT), WINDOW_HEIGHT, 0);
         Lane mortalLane1 = new Lane(LaneType.MORTAL, LANE_HEIGHT, WINDOW_HEIGHT - 2 * (LANE_HEIGHT), WINDOW_HEIGHT - 1 * (LANE_HEIGHT), OBSTACLE_WIDTH);
         Lane mortalLane2 = new Lane(LaneType.MORTAL, LANE_HEIGHT, WINDOW_HEIGHT - 3 * (LANE_HEIGHT), WINDOW_HEIGHT - 2 * (LANE_HEIGHT), OBSTACLE_WIDTH);

@@ -109,18 +109,18 @@ public class Player {
     }
 
     private void loadPlayerTexture() {
-        Image image = LoadImage("D:\\PersonalWorkspace\\RiverCross\\resources\\pixil-frame-0.png");
+        Image image = LoadImage("D:\\PersonalWorkspace\\RiverCross\\resources\\Off.png");
         texture = LoadTextureFromImage(image);
         // IMPORTANT: Set texture filter to Nearest-Neighbor for crisp pixel scaling
         SetTextureFilter(texture, TEXTURE_FILTER_POINT);
 
-        sourceRec = new Rectangle();
+        sourceRec = new Rectangle(); // A Rectangle defining the portion of the original texture you want to draw.
         sourceRec.x(0.0f);
         sourceRec.y(0.0f);
         sourceRec.width(texture.width());
         sourceRec.height(texture.height());
 
-        float scale = 2.0f;
+        float scale = 1.0f;
 
         destRec = new Rectangle();
         destRec.width(texture.width() * scale);

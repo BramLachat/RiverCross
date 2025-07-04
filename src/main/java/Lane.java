@@ -88,7 +88,11 @@ public class Lane {
         // TODO @Bram: end!
         for (Obstacle obstacle : this.obstacleList) {
             if (obstacle.isInsideWindow(this.direction)) {
-                DrawRectangle((int) obstacle.getX(), (int) obstacle.getY(), (int) obstacle.getWidth(), (int) obstacle.getHeight(), obstacleColor);
+                if (type == LaneType.MORTAL) {
+                    obstacle.render();
+                } else {
+                    DrawRectangle((int) obstacle.getX(), (int) obstacle.getY(), (int) obstacle.getWidth(), (int) obstacle.getHeight(), obstacleColor);
+                }
                 obstacle.moveToNextPosition(deltaTime, this.direction, this.speed);
             } else {
                 obstaclesToRemove.add(obstacle);
@@ -144,10 +148,6 @@ public class Lane {
 
     public int getBottomY() {
         return bottomY;
-    }
-
-    public LaneType getType() {
-        return type;
     }
 
     public float getPlayerCenterPosY() {

@@ -3,6 +3,7 @@ import com.raylib.Raylib;
 public class Obstacle {
 
     private Raylib.Rectangle rectangle;
+    private ChainSaw chainSaw;
 
     public Obstacle(int height, int width, int x, int y) {
         this.rectangle = new Raylib.Rectangle();
@@ -10,6 +11,8 @@ public class Obstacle {
         this.rectangle.y(y);
         this.rectangle.width(width);
         this.rectangle.height(height);
+        this.chainSaw = new ChainSaw();
+
     }
 
     public boolean isInsideWindow(LaneDirection direction) {
@@ -45,5 +48,9 @@ public class Obstacle {
 
     public Raylib.Rectangle getRectangle() {
         return rectangle;
+    }
+
+    public void render() {
+        this.chainSaw.render(this.rectangle.x(), this.rectangle.y());
     }
 }
