@@ -72,6 +72,7 @@ public class Lane {
         }
         if (type == LaneType.SURVIVAL) {
             checkOnTop(deltaTime);
+            DrawRectangle(0, topY, Main.WINDOW_WIDTH, height, DARKBLUE);
         }
         if (type == LaneType.MUD) {
             checkCollision();
@@ -94,6 +95,14 @@ public class Lane {
             }
         }
         this.removeObstacles(obstaclesToRemove);
+        
+        this.centerPlayerPosY();
+    }
+
+    private void centerPlayerPosY() {
+        if (Main.PLAYER.isInsideLane(this) && type != LaneType.MUD) {
+            Main.PLAYER.setPosY(this.getPlayerCenterPosY());
+        }
     }
 
     private void checkCollision() {
