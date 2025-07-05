@@ -4,6 +4,7 @@ public class Obstacle {
 
     private Raylib.Rectangle rectangle;
     private ChainSaw chainSaw;
+    private Wall wall;
 
     public Obstacle(int height, int width, int x, int y) {
         this.rectangle = new Raylib.Rectangle();
@@ -12,7 +13,7 @@ public class Obstacle {
         this.rectangle.width(width);
         this.rectangle.height(height);
         this.chainSaw = new ChainSaw();
-
+        this.wall = new Wall();
     }
 
     public boolean isInsideWindow(LaneDirection direction) {
@@ -50,7 +51,11 @@ public class Obstacle {
         return rectangle;
     }
 
-    public void render() {
-        this.chainSaw.render(this.rectangle.x(), this.rectangle.y());
+    public void renderChainSawAnimation() {
+        this.chainSaw.renderChainSawAnimation(this.rectangle.x(), this.rectangle.y(), this.rectangle.width(), this.rectangle.height());
+    }
+
+    public void renderStaticWall() {
+        this.wall.renderStaticWall(this.rectangle.x(), this.rectangle.y(), this.rectangle.width(), this.rectangle.height());
     }
 }

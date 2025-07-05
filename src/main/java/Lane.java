@@ -89,7 +89,9 @@ public class Lane {
         for (Obstacle obstacle : this.obstacleList) {
             if (obstacle.isInsideWindow(this.direction)) {
                 if (type == LaneType.MORTAL) {
-                    obstacle.render();
+                    obstacle.renderChainSawAnimation();
+                } else if (type == LaneType.SURVIVAL) {
+                    obstacle.renderStaticWall();
                 } else {
                     DrawRectangle((int) obstacle.getX(), (int) obstacle.getY(), (int) obstacle.getWidth(), (int) obstacle.getHeight(), obstacleColor);
                 }

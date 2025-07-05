@@ -1,10 +1,6 @@
 import com.raylib.Raylib;
 
-import static com.raylib.Colors.WHITE;
 import static com.raylib.Raylib.*;
-import static com.raylib.Raylib.IsKeyPressed;
-import static com.raylib.Raylib.KEY_LEFT;
-import static com.raylib.Raylib.KEY_RIGHT;
 
 public class Player {
     private Raylib.Vector2 position;
@@ -12,11 +8,7 @@ public class Player {
     private float startPosY;
     private boolean isInsideMud;
 
-    private Texture texture;
-    private Rectangle sourceRec;
-    private Rectangle destRec;
-    private Vector2 rotationOrigin;
-    private final float rotation = 0.0f; // No rotation
+    private VirtualGuy virtualGuy;
 
     public Player(float startPosX, float startPosY) {
         this.position = new Raylib.Vector2();
@@ -24,13 +16,11 @@ public class Player {
         this.position.y(startPosY);
         this.startPosX = startPosX;
         this.startPosY = startPosY;
-        loadPlayerTexture();
+        this.virtualGuy = new VirtualGuy();
     }
 
     public void render() {
-        destRec.x(position.x() - Main.PLAYER_RADIUS + 4);
-        destRec.y(position.y() - Main.PLAYER_RADIUS + 2);
-        DrawTexturePro(texture, sourceRec, destRec, rotationOrigin, rotation, WHITE);
+        this.virtualGuy.renderVirtualGuyAnimation(position.x() - Main.PLAYER_RADIUS, position.y() - Main.PLAYER_RADIUS, Main.PLAYER_RADIUS * 2, Main.PLAYER_RADIUS * 2);
         listenForUserInput();
     }
 
@@ -106,28 +96,5 @@ public class Player {
 
     public boolean isInsideLane(Lane lane) {
         return this.position.y() < lane.getBottomY() && this.position.y() > lane.getTopY();
-    }
-
-    private void loadPlayerTexture() {
-        Image image = LoadImage("D:\\PersonalWorkspace\\RiverCross\\resources\\Off.png");
-        texture = LoadTextureFromImage(image);
-        // IMPORTANT: Set texture filter to Nearest-Neighbor for crisp pixel scaling
-        SetTextureFilter(texture, TEXTURE_FILTER_POINT);
-
-        sourceRec = new Rectangle(); // A Rectangle defining the portion of the original texture you want to draw.
-        sourceRec.x(0.0f);
-        sourceRec.y(0.0f);
-        sourceRec.width(texture.width());
-        sourceRec.height(texture.height());
-
-        float scale = 1.0f;
-
-        destRec = new Rectangle();
-        destRec.width(texture.width() * scale);
-        destRec.height(texture.height() * scale);
-
-        this.rotationOrigin = new Vector2(); // No rotation origin
-        rotationOrigin.x(0.0f);
-        rotationOrigin.y(0.0f);
     }
 }

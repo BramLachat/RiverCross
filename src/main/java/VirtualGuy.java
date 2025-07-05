@@ -1,14 +1,14 @@
 import static com.raylib.Colors.WHITE;
 import static com.raylib.Raylib.*;
 
-public class ChainSaw {
-    private static final int ANIM_FRAMES = 8;       // Total number of animation frames
-    private static final int FRAME_WIDTH = 38;      // Width of a single animation frame
-    private static final int FRAME_HEIGHT = 38;      // Height of a single animation frame
+public class VirtualGuy {
+    private static final int ANIM_FRAMES = 11;       // Total number of animation frames
+    private static final int FRAME_WIDTH = 32;      // Width of a single animation frame
+    private static final int FRAME_HEIGHT = 32;      // Height of a single animation frame
     private static final float ANIM_SPEED = 0.05f;    // Seconds per frame (e.g., 0.1s = 10 frames per second)
     private static final float SCALE_FACTOR = 1.0f;    // How much to scale up the pixel art
     private static final float ROTATION = 0.0f;         // No rotation
-    private static final Image IMAGE = LoadImage("D:\\PersonalWorkspace\\RiverCross\\resources\\chain_saw_animation.png");
+    private static final Image IMAGE = LoadImage("D:\\PersonalWorkspace\\RiverCross\\resources\\virtual_guy.png");
     private static final Texture TEXTURE = LoadTextureFromImage(IMAGE);
 
     // Animation variables
@@ -19,7 +19,7 @@ public class ChainSaw {
     private final Rectangle FRAME_REC = new Rectangle();
     private final Rectangle DESTINATION_REC = new Rectangle();
 
-    public ChainSaw() {
+    public VirtualGuy() {
         // Source rectangle for the current frame
         FRAME_REC.x(0.0f);
         FRAME_REC.y(0.0f);
@@ -35,7 +35,7 @@ public class ChainSaw {
         ROTATION_ORIGIN.y(0.0f);
     }
 
-    public void renderChainSawAnimation(float posX, float posY, float width, float height) {
+    public void renderVirtualGuyAnimation(float posX, float posY, float width, float height) {
         frameTimer += GetFrameTime(); // GetFrameTime() gives the time elapsed since last frame
 
         if (frameTimer >= ANIM_SPEED)
