@@ -7,7 +7,6 @@ public class Player {
     private float startPosX;
     private float startPosY;
     private boolean isInsideMud;
-
     private VirtualGuy virtualGuy;
 
     public Player(float startPosX, float startPosY) {

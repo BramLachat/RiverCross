@@ -6,8 +6,8 @@ import static com.raylib.Raylib.*;
 public class Main {
 
     public static final int WINDOW_WIDTH = 800;
-    public static final int WINDOW_HEIGHT = WINDOW_WIDTH / 16 * 9;
-    public static final int LANE_HEIGHT = WINDOW_WIDTH / 20;
+    public static final int WINDOW_HEIGHT = WINDOW_WIDTH / 16 * 9 - ((WINDOW_WIDTH / 16 * 9) % 11);
+    public static final int LANE_HEIGHT = WINDOW_HEIGHT / 11;
     public static final int OBSTACLE_WIDTH = WINDOW_WIDTH / 20;
     public static final int PLAYER_RADIUS = LANE_HEIGHT / 2 - 2;
     public static Player PLAYER = null;
@@ -18,8 +18,6 @@ public class Main {
 
         PLAYER = new Player((float) WINDOW_WIDTH / 2, WINDOW_HEIGHT - PLAYER_RADIUS - 1);
 
-        ChainSaw chainSaw = new ChainSaw();
-
         Lane baseLane = new Lane(LaneType.BASE, LANE_HEIGHT, WINDOW_HEIGHT - 1 * (LANE_HEIGHT), WINDOW_HEIGHT, 0);
         Lane mortalLane1 = new Lane(LaneType.MORTAL, LANE_HEIGHT, WINDOW_HEIGHT - 2 * (LANE_HEIGHT), WINDOW_HEIGHT - 1 * (LANE_HEIGHT), OBSTACLE_WIDTH);
         Lane mortalLane2 = new Lane(LaneType.MORTAL, LANE_HEIGHT, WINDOW_HEIGHT - 3 * (LANE_HEIGHT), WINDOW_HEIGHT - 2 * (LANE_HEIGHT), OBSTACLE_WIDTH);
@@ -28,12 +26,12 @@ public class Main {
         Lane survivalLane2 = new Lane(LaneType.SURVIVAL, LANE_HEIGHT, WINDOW_HEIGHT - 6 * (LANE_HEIGHT), WINDOW_HEIGHT - 5 * (LANE_HEIGHT), OBSTACLE_WIDTH * 2);
         Lane survivalLane3 = new Lane(LaneType.SURVIVAL, LANE_HEIGHT, WINDOW_HEIGHT - 7 * (LANE_HEIGHT), WINDOW_HEIGHT - 6 * (LANE_HEIGHT), OBSTACLE_WIDTH * 2);
         Lane mudLane = new Lane(LaneType.MUD, LANE_HEIGHT * 2, WINDOW_HEIGHT - 9 * (LANE_HEIGHT), WINDOW_HEIGHT - 7 * (LANE_HEIGHT), OBSTACLE_WIDTH);
-        Lane finishLane = new Lane(LaneType.BASE, LANE_HEIGHT, WINDOW_HEIGHT - 10 * (LANE_HEIGHT), WINDOW_HEIGHT - 9 * (LANE_HEIGHT), 0);
+        Lane mortalLane4 = new Lane(LaneType.MORTAL, LANE_HEIGHT, WINDOW_HEIGHT - 10 * (LANE_HEIGHT), WINDOW_HEIGHT - 9 * (LANE_HEIGHT), OBSTACLE_WIDTH);
+        Lane finishLane = new Lane(LaneType.BASE, LANE_HEIGHT, WINDOW_HEIGHT - 11 * (LANE_HEIGHT), WINDOW_HEIGHT - 10 * (LANE_HEIGHT), 0);
 
         while (!WindowShouldClose()) {
             BeginDrawing();
             ClearBackground(RAYWHITE);
-            DrawFPS(0, 0);
             float deltaTime = GetFrameTime(); // Get the time elapsed since last frame
 
             baseLane.start(deltaTime);
@@ -44,10 +42,11 @@ public class Main {
             survivalLane2.start(deltaTime);
             survivalLane3.start(deltaTime);
             mudLane.start(deltaTime);
+            mortalLane4.start(deltaTime);
             finishLane.start(deltaTime);
 
             PLAYER.render();
-
+            DrawFPS(0, 0);
             EndDrawing();
         }
         CloseWindow();
