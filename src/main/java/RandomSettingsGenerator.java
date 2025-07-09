@@ -23,4 +23,18 @@ public class RandomSettingsGenerator {
         }
         return RANDOM_GENERATOR.nextInt(1000, 3000);
     }
+
+    public static LaneType getLaneType() {
+        int randomInt = RANDOM_GENERATOR.nextInt(0, 2);
+        if (randomInt == 0) {
+            return LaneType.MORTAL;
+        }
+        if (randomInt == 1) {
+            return LaneType.SURVIVAL;
+        }
+        if (randomInt == 2) {
+            return LaneType.MUD;
+        }
+        throw new RuntimeException("UNKNOWN_RANDOM_LANE_GENERATED");
+    }
 }

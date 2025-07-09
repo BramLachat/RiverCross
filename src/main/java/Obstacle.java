@@ -1,5 +1,7 @@
 import com.raylib.Raylib;
 
+import static com.raylib.Raylib.GetFrameTime;
+
 public class Obstacle {
 
     private Raylib.Rectangle rectangle;
@@ -24,11 +26,11 @@ public class Obstacle {
         }
     }
 
-    public void moveToNextPosition(float deltaTime, LaneDirection direction, float laneSpeed) {
+    public void moveToNextPosition(LaneDirection direction, float laneSpeed) {
         if (direction == LaneDirection.LEFT_TO_RIGHT) {
-            this.rectangle.x(this.rectangle.x() + (int) (laneSpeed * deltaTime)); // Move obstacle to next right position
+            this.rectangle.x(this.rectangle.x() + (int) (laneSpeed * GetFrameTime())); // Move obstacle to next right position
         } else {
-            this.rectangle.x(this.rectangle.x() - (int) (laneSpeed * deltaTime)); // Move obstacle to next left position
+            this.rectangle.x(this.rectangle.x() - (int) (laneSpeed * GetFrameTime())); // Move obstacle to next left position
         }
     }
 

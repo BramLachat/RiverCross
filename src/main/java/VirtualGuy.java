@@ -9,7 +9,7 @@ public class VirtualGuy {
     private static final float SCALE_FACTOR = 1.0f;    // How much to scale up the pixel art
     private static final float ROTATION = 0.0f;         // No rotation
     private static final Image IMAGE = LoadImage("D:\\PersonalWorkspace\\RiverCross\\resources\\virtual_guy.png");
-    private static final Texture TEXTURE = LoadTextureFromImage(IMAGE);
+    public static final Texture TEXTURE = LoadTextureFromImage(IMAGE);
 
     // Animation variables
     private int currentFrame = 0;           // Current frame being displayed

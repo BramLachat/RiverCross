@@ -21,7 +21,7 @@ public class Lane {
     private int bottomY;
     private int obstacleWidth;
 
-    public Lane(LaneType type, int height, int topY, int bottomY, int obstacleWidth) {
+    public Lane(LaneType type, int topY, int bottomY, int obstacleWidth) {
         this.obstacleList = new ArrayList<>();
         this.lastCreatedObstacleTimestamp = Instant.now();
         this.nextObstacleCreationDelay = 0;
@@ -29,7 +29,7 @@ public class Lane {
         this.direction = RandomSettingsGenerator.getDirection();
         this.nextObstacleCreationDelay = 0;
         this.type = type;
-        this.height = height;
+        this.height = Main.LANE_HEIGHT;
         this.topY = topY;
         this.bottomY = bottomY;
         this.obstacleWidth = obstacleWidth;
@@ -61,7 +61,7 @@ public class Lane {
         this.obstacleList.removeAll(obstaclesToRemove);
     }
 
-    public void start(float deltaTime) {
+    public void start() {
         if (this.shouldSpawnNewObstacle()) {
             this.addObstacle();
             this.nextObstacleCreationDelay = RandomSettingsGenerator.getObstacleCreationDelay(this.type);
@@ -71,7 +71,7 @@ public class Lane {
             checkCollision();
         }
         if (type == LaneType.SURVIVAL) {
-            checkOnTop(deltaTime);
+            checkOnTop();
             DrawRectangle(0, topY, Main.WINDOW_WIDTH, height, DARKBLUE);
         }
         if (type == LaneType.MUD) {
@@ -95,7 +95,7 @@ public class Lane {
                 } else {
                     DrawRectangle((int) obstacle.getX(), (int) obstacle.getY(), (int) obstacle.getWidth(), (int) obstacle.getHeight(), obstacleColor);
                 }
-                obstacle.moveToNextPosition(deltaTime, this.direction, this.speed);
+                obstacle.moveToNextPosition(this.direction, this.speed);
             } else {
                 obstaclesToRemove.add(obstacle);
             }
@@ -123,11 +123,11 @@ public class Lane {
         }
     }
 
-    private void checkOnTop(float deltaTime) {
+    private void checkOnTop() {
         boolean isOnTopOfAnObstacle = false;
         for (Obstacle obstacle : this.getObstacleList()) {
             if (CheckCollisionCircleRec(Main.PLAYER.getPosition(), 0, obstacle.getRectangle())) {
-                Main.PLAYER.move(this.getDirection(), this.getSpeed(), deltaTime);
+                Main.PLAYER.move(this.getDirection(), this.getSpeed());
                 isOnTopOfAnObstacle = true;
             }
         }

@@ -1,6 +1,7 @@
 import com.raylib.Raylib;
 
 import static com.raylib.Raylib.*;
+import static com.raylib.Raylib.GetFrameTime;
 
 public class Player {
     private Raylib.Vector2 position;
@@ -85,11 +86,11 @@ public class Player {
     }
 
     // Move the player in the same direction and with the same speed as the obstacles in the lane.
-    public void move(LaneDirection direction, float laneSpeed, float deltaTime) {
+    public void move(LaneDirection direction, float laneSpeed) {
         if (direction == LaneDirection.LEFT_TO_RIGHT) {
-            this.position.x(this.position.x() + (int) (laneSpeed * deltaTime));
+            this.position.x(this.position.x() + (int) (laneSpeed * GetFrameTime()));
         } else {
-            this.position.x(this.position.x() - (int) (laneSpeed * deltaTime));
+            this.position.x(this.position.x() - (int) (laneSpeed * GetFrameTime()));
         }
     }
 
