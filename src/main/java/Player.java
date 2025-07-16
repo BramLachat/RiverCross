@@ -9,6 +9,7 @@ public class Player {
     private float startPosY;
     private boolean isInsideMud;
     private VirtualGuy virtualGuy;
+    private Direction direction = Direction.RIGHT;
 
     public Player(float startPosX, float startPosY) {
         this.position = new Raylib.Vector2();
@@ -41,9 +42,19 @@ public class Player {
             }
         }
         if (IsKeyPressed(KEY_LEFT)) {
+            if (direction == Direction.RIGHT) {
+                direction = Direction.LEFT;
+                ImageFlipHorizontal(VirtualGuy.IMAGE);
+                VirtualGuy.TEXTURE = LoadTextureFromImage(VirtualGuy.IMAGE);
+            }
             this.setPosX(this.getPosX() - Main.OBSTACLE_WIDTH);
         }
         if (IsKeyPressed(KEY_RIGHT)) {
+            if (direction == Direction.LEFT) {
+                direction = Direction.RIGHT;
+                ImageFlipHorizontal(VirtualGuy.IMAGE);
+                VirtualGuy.TEXTURE = LoadTextureFromImage(VirtualGuy.IMAGE);
+            }
             this.setPosX(this.getPosX() + Main.OBSTACLE_WIDTH);
         }
     }

@@ -8,7 +8,8 @@ public class ChainSaw {
     private static final float ANIM_SPEED = 0.05f;    // Seconds per frame (e.g., 0.1s = 10 frames per second)
     private static final float SCALE_FACTOR = 1.0f;    // How much to scale up the pixel art
     private static final float ROTATION = 0.0f;         // No rotation
-    private static final Image IMAGE = LoadImage("D:\\PersonalWorkspace\\RiverCross\\resources\\chain_saw_animation.png");
+//    private static final Image IMAGE = LoadImage("D:\\PersonalWorkspace\\RiverCross\\resources\\chain_saw_animation.png");
+    private static final Image IMAGE = LoadImage("C:\\Workspaces\\Personal\\RiverCross\\resources\\chain_saw_animation.png");
     public static final Texture TEXTURE = LoadTextureFromImage(IMAGE);
 
     // Animation variables

@@ -6,7 +6,8 @@ public class Wall {
     private static final int FRAME_HEIGHT = 48;      // Height of a single animation frame
     private static final float SCALE_FACTOR = 1.0f;    // How much to scale up the pixel art
     private static final float ROTATION = 0.0f;         // No rotation
-    private static final Image IMAGE = LoadImage("D:\\PersonalWorkspace\\RiverCross\\resources\\terrain.png");
+//    private static final Image IMAGE = LoadImage("D:\\PersonalWorkspace\\RiverCross\\resources\\terrain.png");
+    private static final Image IMAGE = LoadImage("C:\\Workspaces\\Personal\\RiverCross\\resources\\terrain.png");
     public static final Texture TEXTURE = LoadTextureFromImage(IMAGE);
 
     private final Vector2 ROTATION_ORIGIN = new Vector2();
