@@ -26,12 +26,12 @@ public class Main {
         PLAYER = new Player((float) WINDOW_WIDTH / 2, WINDOW_HEIGHT - PLAYER_RADIUS - 1);
         List<Lane> lanes = new ArrayList<>();
 
-        lanes.add(new Lane(LaneType.BASE, WINDOW_HEIGHT - 1 * (LANE_HEIGHT), WINDOW_HEIGHT, 0));
+        lanes.add(new Lane(LaneType.START, WINDOW_HEIGHT - 1 * (LANE_HEIGHT), WINDOW_HEIGHT, 0));
         for (int laneIndex = 2; laneIndex < NUMBER_OF_LANES; laneIndex++) {
             LaneType laneType = RandomSettingsGenerator.getLaneType();
             lanes.add(new Lane(laneType, WINDOW_HEIGHT - laneIndex * (LANE_HEIGHT), WINDOW_HEIGHT - (laneIndex-1) * (LANE_HEIGHT), OBSTACLE_WIDTH));
         }
-        lanes.add(new Lane(LaneType.BASE, WINDOW_HEIGHT - NUMBER_OF_LANES * (LANE_HEIGHT), WINDOW_HEIGHT - (NUMBER_OF_LANES - 1) * (LANE_HEIGHT), 0));
+        lanes.add(new Lane(LaneType.FINISH, WINDOW_HEIGHT - NUMBER_OF_LANES * (LANE_HEIGHT), WINDOW_HEIGHT - (NUMBER_OF_LANES - 1) * (LANE_HEIGHT), 0));
 
 //        Lane mortalLane1 = new Lane(LaneType.MORTAL, LANE_HEIGHT, WINDOW_HEIGHT - 2 * (LANE_HEIGHT), WINDOW_HEIGHT - 1 * (LANE_HEIGHT), OBSTACLE_WIDTH);
 //        Lane mortalLane2 = new Lane(LaneType.MORTAL, LANE_HEIGHT, WINDOW_HEIGHT - 3 * (LANE_HEIGHT), WINDOW_HEIGHT - 2 * (LANE_HEIGHT), OBSTACLE_WIDTH);

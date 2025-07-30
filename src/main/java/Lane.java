@@ -36,7 +36,7 @@ public class Lane {
     }
 
     public boolean shouldSpawnNewObstacle() {
-        if (type == LaneType.BASE) {
+        if (type == LaneType.START || type == LaneType.FINISH) {
             return false;
         }
         return Duration.between(lastCreatedObstacleTimestamp, Instant.now()).toMillis() > nextObstacleCreationDelay;
@@ -78,7 +78,7 @@ public class Lane {
             checkCollision();
             DrawRectangle(0, topY, Main.WINDOW_WIDTH, height, BROWN);
         }
-        if (type == LaneType.BASE) {
+        if (type == LaneType.START || type == LaneType.FINISH) {
             DrawRectangle(0, topY, Main.WINDOW_WIDTH, height, SKYBLUE);
         }
 
