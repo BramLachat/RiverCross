@@ -103,11 +103,18 @@ public class Lane {
         this.removeObstacles(obstaclesToRemove);
         
         this.centerPlayerPosY();
+        this.checkPlayerFinished();
     }
 
     private void centerPlayerPosY() {
         if (Main.PLAYER.isInsideLane(this) && type != LaneType.MUD) {
             Main.PLAYER.setPosY(this.getPlayerCenterPosY());
+        }
+    }
+
+    private void checkPlayerFinished() {
+        if (Main.PLAYER.isInsideLane(this) && type == LaneType.FINISH) {
+            Main.PLAYER.addPoint();
         }
     }
 

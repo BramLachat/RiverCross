@@ -1,3 +1,4 @@
+import com.raylib.Helpers;
 import com.raylib.Raylib;
 
 import static com.raylib.Raylib.*;
@@ -10,11 +11,10 @@ public class Player {
     private boolean isInsideMud;
     private VirtualGuy virtualGuy;
     private Direction direction = Direction.RIGHT;
+    private int points = 0;
 
     public Player(float startPosX, float startPosY) {
-        this.position = new Raylib.Vector2();
-        this.position.x(startPosX);
-        this.position.y(startPosY);
+        this.position = Helpers.newVector2(startPosX, startPosY);
         this.startPosX = startPosX;
         this.startPosY = startPosY;
         this.virtualGuy = new VirtualGuy();
@@ -60,8 +60,7 @@ public class Player {
     }
 
     public void reset() {
-        this.position.x(this.startPosX);
-        this.position.y(this.startPosY);
+        this.position = Helpers.newVector2(this.startPosX, this.startPosY);
     }
 
     public void setInsideMud(boolean insideMud) {
@@ -107,5 +106,13 @@ public class Player {
 
     public boolean isInsideLane(Lane lane) {
         return this.position.y() < lane.getBottomY() && this.position.y() > lane.getTopY();
+    }
+
+    public void addPoint() {
+        this.points++;
+    }
+
+    public int getPoints() {
+        return points;
     }
 }

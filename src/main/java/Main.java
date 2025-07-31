@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.raylib.Colors.BLACK;
 import static com.raylib.Colors.RAYWHITE;
 import static com.raylib.Raylib.*;
 
@@ -52,6 +53,7 @@ public class Main {
 
             PLAYER.render();
             DrawFPS(0, 0);
+            DrawText("Points: " + PLAYER.getPoints(), 0, WINDOW_HEIGHT - 25, 25, BLACK);
             EndDrawing();
         }
         CloseWindow();
