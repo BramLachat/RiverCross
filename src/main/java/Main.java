@@ -1,3 +1,5 @@
+import com.raylib.Helpers;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,10 +16,16 @@ public class Main {
     public static final int OBSTACLE_WIDTH = WINDOW_WIDTH / 20;
     public static final int PLAYER_RADIUS = LANE_HEIGHT / 2 - 2;
     public static Player PLAYER = null;
+    public static boolean showMessageBox = true;
 
     public static void main(String args[]) {
         InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "RiverCross");
         SetTargetFPS(60);
+
+        GuiSetStyle(DEFAULT, TEXT_SIZE, 25);// GuiSetStyle(control, property, value)
+        String finishedMessage = "You survived! Start next level!";
+        int textWidth = MeasureText(finishedMessage, 25);
+        Rectangle buttonRectangle = Helpers.newRectangle(WINDOW_WIDTH * 0.5f - (textWidth * 0.5f), WINDOW_HEIGHT * 0.5f, textWidth, 50);
 
         // IMPORTANT: Set texture filter to Nearest-Neighbor for crisp pixel scaling
         SetTextureFilter(Wall.TEXTURE, TEXTURE_FILTER_BILINEAR);
@@ -54,6 +62,11 @@ public class Main {
             PLAYER.render();
             DrawFPS(0, 0);
             DrawText("Points: " + PLAYER.getPoints(), 0, WINDOW_HEIGHT - 25, 25, BLACK);
+
+            if (showMessageBox) {
+                GuiButton(buttonRectangle, finishedMessage);
+            }
+
             EndDrawing();
         }
         CloseWindow();
