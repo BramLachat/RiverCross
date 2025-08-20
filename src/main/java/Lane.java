@@ -114,6 +114,7 @@ public class Lane {
 
     private void checkPlayerFinished() {
         if (Main.PLAYER.isInsideLane(this) && type == LaneType.FINISH) {
+            Main.PLAYER.reset();
             Main.PLAYER.addPoint();
         }
     }

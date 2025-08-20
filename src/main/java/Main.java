@@ -16,16 +16,20 @@ public class Main {
     public static final int OBSTACLE_WIDTH = WINDOW_WIDTH / 20;
     public static final int PLAYER_RADIUS = LANE_HEIGHT / 2 - 2;
     public static Player PLAYER = null;
-    public static boolean showMessageBox = true;
+    public static boolean showMessageBox = false;
+    public static float musicVolume = 1.0f;
 
     public static void main(String args[]) {
         InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "RiverCross");
         SetTargetFPS(60);
 
+        InitAudioDevice();
+
         GuiSetStyle(DEFAULT, TEXT_SIZE, 25);// GuiSetStyle(control, property, value)
         String finishedMessage = "You survived! Start next level!";
         int textWidth = MeasureText(finishedMessage, 25);
         Rectangle buttonRectangle = Helpers.newRectangle(WINDOW_WIDTH * 0.5f - (textWidth * 0.5f), WINDOW_HEIGHT * 0.5f, textWidth, 50);
+        Rectangle volumeButtonRect = Helpers.newRectangle(WINDOW_WIDTH - 125.0f, 25.0f, 100, 50);
 
         // IMPORTANT: Set texture filter to Nearest-Neighbor for crisp pixel scaling
         SetTextureFilter(Wall.TEXTURE, TEXTURE_FILTER_BILINEAR);
@@ -51,9 +55,18 @@ public class Main {
 //        Lane mudLane = new Lane(LaneType.MUD, LANE_HEIGHT * 2, WINDOW_HEIGHT - 9 * (LANE_HEIGHT), WINDOW_HEIGHT - 7 * (LANE_HEIGHT), OBSTACLE_WIDTH);
 //        Lane mortalLane4 = new Lane(LaneType.MORTAL, LANE_HEIGHT, WINDOW_HEIGHT - 10 * (LANE_HEIGHT), WINDOW_HEIGHT - 9 * (LANE_HEIGHT), OBSTACLE_WIDTH);
 
+        while (!IsAudioDeviceReady()) {
+
+        }
+        Music music = LoadMusicStream("C:\\Workspaces\\Personal\\RiverCross\\resources\\306510_Lampje4life___Dixie___Volk.mp3");
+        PlayMusicStream(music);
+
         while (!WindowShouldClose()) {
             BeginDrawing();
             ClearBackground(RAYWHITE);
+
+            // Critical part for playing music.
+            UpdateMusicStream(music);
 
             for (int laneIndex = 0; laneIndex < NUMBER_OF_LANES; laneIndex++) {
                 lanes.get(laneIndex).start();
@@ -62,6 +75,20 @@ public class Main {
             PLAYER.render();
             DrawFPS(0, 0);
             DrawText("Points: " + PLAYER.getPoints(), 0, WINDOW_HEIGHT - 25, 25, BLACK);
+
+            GuiButton(volumeButtonRect, "Mute");
+
+            if (CheckCollisionPointRec(GetMousePosition(), volumeButtonRect))
+            {
+                if (IsMouseButtonReleased(MOUSE_BUTTON_LEFT)) {
+                    if (musicVolume == 0.0f) {
+                        musicVolume = 1.0f;
+                    } else {
+                        musicVolume = 0.0f;
+                    }
+                    SetMusicVolume(music, musicVolume);
+                }
+            }
 
             if (showMessageBox) {
                 GuiButton(buttonRectangle, finishedMessage);

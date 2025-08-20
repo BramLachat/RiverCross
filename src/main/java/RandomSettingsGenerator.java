@@ -30,7 +30,8 @@ public class RandomSettingsGenerator {
             return LaneType.MORTAL;
         }
         if (randomInt == 1) {
-            return LaneType.SURVIVAL;
+            return LaneType.MORTAL;
+//            return LaneType.SURVIVAL;
         }
         if (randomInt == 2) {
             return LaneType.MUD;
